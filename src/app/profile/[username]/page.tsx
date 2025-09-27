@@ -3,10 +3,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Edit, MapPin, Calendar, Link as LinkIcon } from "lucide-react";
+import { api } from "~/trpc/server";
 
-export default function ProfilePage() {
+// server component = component yang di render di server kita (VPS/Hosting)
+// client component = component yang di render di client kita (browser)
+
+export default async function ProfilePage({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) {
+  const { username: inputUsername } = await params;
+  const profile = await api.user.getProfileByUsername({
+    username: inputUsername,
+  });
+
   return (
-    <main className="container mx-auto max-w-4xl px-4 py-8">
+    <main>
       <div className="flex flex-col gap-6">
         {/* Header dengan judul dan tombol edit */}
         <div className="flex items-center justify-between">
@@ -27,9 +40,9 @@ export default function ProfilePage() {
             <div className="-mt-12 mb-4 flex justify-center">
               <Avatar className="border-background size-24 border-4">
                 <AvatarFallback className="bg-gradient-to-r from-blue-400 to-purple-500 text-xl text-white">
-                  FD
+                  {profile.username?.charAt(0).toUpperCase()}
                 </AvatarFallback>
-                <AvatarImage src={""} />
+                <AvatarImage src={profile.image ?? ""} />
               </Avatar>
             </div>
 
@@ -37,13 +50,10 @@ export default function ProfilePage() {
             <div className="mb-6 text-center">
               <div className="flex flex-col items-center gap-2">
                 <div className="flex items-center gap-2">
-                  <p className="text-2xl font-bold">Ferren</p>
-                  <Badge variant="secondary" className="text-xs">
-                    Pro
-                  </Badge>
+                  <p className="text-2xl font-bold">{profile.name}</p>
                 </div>
-                <p className="text-muted-foreground">@ferren</p>
-                <p className="text-muted-foreground">ferren@gmail.com</p>
+                <p className="text-muted-foreground">@{profile.username}</p>
+                <p className="text-muted-foreground">{profile.email}</p>
 
                 {/* Bio dan info tambahan */}
                 <p className="mt-2 max-w-md">
