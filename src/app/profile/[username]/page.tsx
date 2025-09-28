@@ -21,15 +21,6 @@ export default async function ProfilePage({
   return (
     <main>
       <div className="flex flex-col gap-6">
-        {/* Header dengan judul dan tombol edit */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">Profile</h1>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Edit size={16} />
-            Edit Profile
-          </Button>
-        </div>
-
         {/* Kartu profil utama */}
         <Card className="overflow-hidden">
           {/* Bagian header dengan background gradient */}

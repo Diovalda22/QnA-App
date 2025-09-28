@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { signIn, signOut, useSession } from "next-auth/react";
 export const Navbar = () => {
@@ -14,9 +15,11 @@ export const Navbar = () => {
 
   return (
     <header className="flex h-16 items-center justify-between border-b p-2">
-      <h1 className="text-2xl font-bold">
-        Nanya <span className="text-blue-500">Bang?</span>
-      </h1>
+      <Link href={"/"}>
+        <h1 className="text-2xl font-bold">
+          Nanya <span className="text-blue-500">Bang?</span>
+        </h1>
+      </Link>
       <div>
         {session.data?.user ? (
           <Button onClick={handleSignOut}>Sign Out</Button>
